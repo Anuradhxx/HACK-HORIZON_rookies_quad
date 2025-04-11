@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% block title %}Log Plant - Smart Plant Identifier{% endblock %}
+
+{% block head_extra %}
+<script src="{{ url_for('static', filename='js/log_plant.js') }}" defer></script>
+{% endblock %}
+
+{% block content %}
+<section class="log-plant-section">
+    <div class="container">
+        <h1 class="page-title">Log a Plant</h1>
+        <p class="page-description">Take a photo of a plant to identify it and add it to our database</p>
+        
+        <div class="log-plant-container">
+            <div class="permission-alerts" id="permission-alerts">
+                <!-- Permission alerts will be displayed here -->
+            </div>
+            
+            <div class="camera-container">
+                <div id="image-preview-container" class="image-preview-container">
+                    <div id="placeholder-message" class="placeholder-message">
+                        <i class="fas fa-camera"></i>
+                        <p>Take a photo of a plant</p>
+                    </div>
+                    <img id="image-preview" class="image-preview" alt="Plant preview" style="display: none;">
+                </div>
+                
+                <div class="camera-controls">
+                    <button id="get-location" class="btn btn-secondary">
+                        <i class="fas fa-map-marker-alt"></i> Get Location
+                    </button>
+                    
+                    <form id="plant-form" enctype="multipart/form-data">
+                        {{ form.hidden_tag() }}
+                        <div class="file-input-container">
+                            <label for="image" class="capture-button">
+                                <i class="fas fa-camera"></i> Capture Image
+                            </label>
+                            {{ form.image(id="image", accept="image/*", capture="camera", class="file-input") }}
+                        </div>
+                        
+                        {{ form.latitude(id="latitude") }}
+                        {{ form.longitude(id="longitude") }}
+                        
+                        <button id="submit-button" type="submit" class="btn btn-primary" disabled>
+                            <i class="fas fa-leaf"></i> Identify Plant
+                        </button>
+                    </form>
+                </div>
+            </div>
+            
+            <div id="location-status" class="location-status">
+                <p>Coordinates: <span id="location-coordinates">Not detected</span></p>
+                <p>Address: <span id="location-address">Not available</span></p>
+            </div>
+            
+            <div id="results-container" class="results-container" style="display: none;">
+                <h2>Identification Results</h2>
+                <div class="result-card">
+                    <div class="result-icon">
+                        <i class="fas fa-seedling"></i>
+                    </div>
+                    <div class="result-details">
+                        <h3>Species: <span id="species-name">Loading...</span></h3>
+                        <p>Plant ID: <span id="plant-id">Loading...</span></p>
+                        <p id="saved-confirmation" class="saved-confirmation">
+                            <i class="fas fa-check-circle"></i> Successfully saved to database!
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="loader" class="loader-container" style="display: none;">
+                <div class="loader"></div>
+                <p>Identifying plant...</p>
+            </div>
+            
+            <div id="error-message" class="error-message"></div>
+        </div>
+    </div>
+</section>
+{% endblock %}
