@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block title %}Reforestation Suggestions - Smart Plant Identifier{% endblock %}
+
+{% block head_extra %}
+<script src="{{ url_for('static', filename='js/suggestions.js') }}" defer></script>
+{% endblock %}
+
+{% block content %}
+<section class="suggestions-section">
+    <div class="container">
+        <h1 class="page-title">Reforestation Suggestions</h1>
+        <p class="page-description">Get climate-appropriate plant recommendations for your area</p>
+        
+        <div class="suggestions-container">
+            <div class="location-card">
+                <h3>Your Location</h3>
+                <div id="location-status" class="location-status">
+                    <p>Current Location: <span id="location-coordinates">Not detected</span></p>
+                </div>
+                
+                <div class="location-controls">
+                    <form id="suggestions-form">
+                        {{ form.hidden_tag() }}
+                        {{ form.latitude(id="latitude") }}
+                        {{ form.longitude(id="longitude") }}
+                        
+                        <button id="get-location" type="button" class="btn btn-secondary">
+                            <i class="fas fa-map-marker-alt"></i> Get My Location
+                        </button>
+                        
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-leaf"></i> Get Suggestions
+                        </button>
+                    </form>
+                </div>
+            </div>
+            
+            <div id="loader" class="loader-container" style="display: none;">
+                <div class="loader"></div>
+                <p>Analyzing your area...</p>
+            </div>
+            
+            <div id="suggestions-results" class="suggestions-results" style="display: none;">
+                <div class="area-description-card">
+                    <h3>Area Description</h3>
+                    <p id="area-description"></p>
+                </div>
+                
+                <div class="recommended-plants-card">
+                    <h3>Recommended Plants for Reforestation</h3>
+                    <ul id="recommended-plants-list" class="recommended-plants-list">
+                        <!-- Plant recommendations will be added here -->
+                    </ul>
+                </div>
+            </div>
+            
+            <div id="error-message" class="error-message"></div>
+        </div>
+    </div>
+</section>
+{% endblock %}
