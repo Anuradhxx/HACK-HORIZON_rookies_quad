@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block title %}
+    {% if active_form == 'login' %}Login{% else %}Sign Up{% endif %} - Smart Plant Identifier
+{% endblock %}
+
+{% block head_extra %}
+<script src="{{ url_for('static', filename='js/auth.js') }}" defer></script>
+{% endblock %}
+
+{% block content %}
+<section class="auth-section">
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-tabs">
+                <button id="login-tab" class="auth-tab {% if active_form == 'login' %}active{% endif %}" data-tab="login">Login</button>
+                <button id="signup-tab" class="auth-tab {% if active_form == 'signup' %}active{% endif %}" data-tab="signup">Sign Up</button>
+            </div>
+            
+            <div class="auth-content">
+                <!-- Login Form -->
+                <div id="login-form" class="auth-form {% if active_form == 'login' %}active{% endif %}">
+                    <h2>Welcome Back</h2>
+                    <p>Log in to continue your plant identification journey</p>
+                    
+                    <form id="login" method="POST" action="{{ url_for('login') }}">
+                        {{ login_form.hidden_tag() }}
+                        <input type="hidden" name="form_type" value="login">
+                        
+                        <div class="form-group">
+                            <label for="username">Username</label>
+                            {{ login_form.username(class="form-control", placeholder="Enter your username") }}
+                            <div class="error-message" id="username-error"></div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            {{ login_form.password(class="form-control", placeholder="Enter your password") }}
+                            <div class="error-message" id="password-error"></div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary btn-block">Log In</button>
+                        </div>
+                    </form>
+                </div>
+                
+                <!-- Signup Form -->
+                <div id="signup-form" class="auth-form {% if active_form == 'signup' %}active{% endif %}">
+                    <h2>Create Account</h2>
+                    <p>Join our plant mapping community</p>
+                    
+                    <form id="signup" method="POST" action="{{ url_for('login') }}">
+                        {{ signup_form.hidden_tag() }}
+                        <input type="hidden" name="form_type" value="signup">
+                        
+                        <div class="form-group">
+                            <label for="username">Username</label>
+                            {{ signup_form.username(class="form-control", placeholder="Choose a username") }}
+                            <div class="error-message" id="signup-username-error"></div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            {{ signup_form.email(class="form-control", placeholder="Enter your email") }}
+                            <div class="error-message" id="signup-email-error"></div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            {{ signup_form.password(class="form-control", placeholder="Create a password") }}
+                            <div class="error-message" id="signup-password-error"></div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="confirm_password">Confirm Password</label>
+                            {{ signup_form.confirm_password(class="form-control", placeholder="Confirm your password") }}
+                            <div class="error-message" id="signup-confirm_password-error"></div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary btn-block">Sign Up</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            <div id="response-message" class="response-message"></div>
+        </div>
+    </div>
+</section>
+{% endblock %}
